@@ -1,10 +1,10 @@
-from sqlalchemy import create_engine
-from urllib.parse import quote_plus
+from pymongo import MongoClient
 
-raw_password = "airoom&2005123"
-password = quote_plus(raw_password)
+MONGO_URI = "mongodb+srv://aiadmin:airoom123@cluster0.jcyujwi.mongodb.net/?retryWrites=true&w=majority"
 
-DATABASE_URL = "postgresql://postgres:airoom&2005123@aws-0-xxx.pooler.supabase.co:6543/postgres"
+client = MongoClient(MONGO_URI)
 
+db = client["AIRoom"]
+candidates = db["Candidates"]
 
-engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+print("✅ MongoDB connected")

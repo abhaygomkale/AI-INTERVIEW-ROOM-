@@ -1,0 +1,40 @@
+<h1>AI Interview Room</h1>
+
+<h3 id="display"></h3>
+
+<video id="video" width="400" autoplay></video>
+
+<button onclick="startInterview()">Start AI Interview</button>
+
+<ul id="questions"></ul>
+
+<script>
+const name = sessionStorage.getItem("candidate_name");
+const domain = sessionStorage.getItem("domain");
+const position = sessionStorage.getItem("position");
+
+document.getElementById("display").innerText =
+`Candidate: ${name} | Domain: ${domain} | Position: ${position}`;
+
+async function startInterview() {
+
+    const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true
+    });
+
+    document.getElementById("video").srcObject = stream;
+
+    const res = await fetch("http://127.0.0.1:8000/get_questions");
+    const data = await res.json();
+
+    const list = document.getElementById("questions");
+    list.innerHTML = "";
+
+    data.questions.forEach(q => {
+        const li = document.createElement("li");
+        li.innerText = q;
+        list.appendChild(li);
+    });
+}
+</script>
